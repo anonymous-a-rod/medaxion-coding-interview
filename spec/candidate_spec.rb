@@ -31,6 +31,22 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '#interview_dates' do
+    subject { candidate.interview_dates }
+
+    it 'allows reading the interview_dates' do
+      is_expected.to be_empty
+    end
+
+    context 'updates the interview_dates' do
+      before { candidate.interview_dates = '11-05-24' }
+
+      it 'is the new interview_dates' do
+        is_expected.to eq '11-05-24'
+      end
+    end
+  end
+
   describe '#name' do
     subject { candidate.name }
 
@@ -40,6 +56,18 @@ RSpec.describe Candidate do
 
     it 'does not allow updating the name' do
       expect { candidate.name = 'Mr. Venema' }.to raise_error NoMethodError
+    end
+  end
+
+  describe '#skill_levels' do
+    subject { candidate.skill_levels }
+
+    it 'allows reading the skill levels' do
+      is_expected.to be_empty
+    end
+
+    it 'does not allow updating the skill levels' do
+      expect { candidate.skill_levels = { 'Ruby' => 5 } }.to raise_error NoMethodError
     end
   end
 
@@ -60,6 +88,8 @@ RSpec.describe Candidate do
   end
 
   describe '#to_s' do
+    subject { candidate.to_s }
+
     context 'candidate has no skills or interview dates' do
       let(:skills) { }
       let(:expected_output) do
@@ -67,7 +97,7 @@ RSpec.describe Candidate do
       end
 
       it 'is a string with name and email' do
-        expect(candidate.to_s).to eq expected_output
+        is_expected.to eq expected_output
       end
     end
 
@@ -77,7 +107,7 @@ RSpec.describe Candidate do
       end
 
       it 'is a string with name, email and skills' do
-        expect(candidate.to_s).to eq expected_output
+        is_expected.to eq expected_output
       end
     end
 
@@ -87,12 +117,12 @@ RSpec.describe Candidate do
       end
 
       before do
-        candidate.rate_skill('Ruby', 4)
-        candidate.rate_skill('RSpec', 5)
+        candidate.rate_skill 'Ruby', 4
+        candidate.rate_skill 'RSpec', 5
       end
 
       it 'includes skill levels in the output' do
-        expect(candidate.to_s).to eq expected_output
+        is_expected.to eq expected_output
       end
     end
 
@@ -101,12 +131,10 @@ RSpec.describe Candidate do
         "Name: Aaron Venema\nEmail: aaron1venema@gmail.com\nSkills: Ruby, RSpec\nInterview Dates: 2024-11-05"
       end
 
-      before do
-        candidate.interview_dates << '2024-11-05'
-      end
+      before { candidate.interview_dates << '2024-11-05' }
 
       it 'includes interview dates in the output' do
-        expect(candidate.to_s).to eq expected_output
+        is_expected.to eq expected_output
       end
     end
 
@@ -116,13 +144,13 @@ RSpec.describe Candidate do
       end
 
       before do
-        candidate.rate_skill('Ruby', 4)
-        candidate.rate_skill('RSpec', 5)
+        candidate.rate_skill 'Ruby', 4
+        candidate.rate_skill 'RSpec', 5
         candidate.interview_dates << '2024-11-05'
       end
 
       it 'includes all information in the output' do
-        expect(candidate.to_s).to eq(expected_output)
+        is_expected.to eq expected_output
       end
     end
   end
@@ -147,7 +175,7 @@ RSpec.describe Candidate do
     let(:skill) { 'Ruby' }
     let(:rating) { 5 }
 
-    subject { candidate.rate_skill(skill, rating) }
+    subject { candidate.rate_skill skill, rating }
 
     context 'skill exists' do
       it 'sets the skill level' do
@@ -188,14 +216,12 @@ RSpec.describe Candidate do
   end
 
   describe '#clear_skill_rating' do
-    subject { candidate.clear_skill_rating(skill) }
+    subject { candidate.clear_skill_rating skill }
 
     context 'skill rating exists' do
       let(:skill) { 'Ruby' }
 
-      before do
-        candidate.skill_levels[skill] = 4
-      end
+      before { candidate.skill_levels[skill] = 4 }
 
       it 'removes the skill rating' do
         subject
@@ -220,17 +246,15 @@ RSpec.describe Candidate do
     end
 
     context 'one interview date' do
-      before do
-        candidate.interview_dates << '2024-11-15'
-      end
+      before { candidate.interview_dates << '2024-11-05' }
 
       it { is_expected.to be_truthy }
     end
 
     context 'multiple interview dates' do
       before do
-        candidate.interview_dates << '2024-11-15'
-        candidate.interview_dates << '2024-11-20'
+        candidate.interview_dates << '2024-10-31'
+        candidate.interview_dates << '2024-11-05'
       end
 
       it { is_expected.to be_truthy }

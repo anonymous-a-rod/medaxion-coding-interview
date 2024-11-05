@@ -1,6 +1,6 @@
 class Candidate
-  attr_reader :name
-  attr_accessor :email, :skills, :interview_dates, :skill_levels
+  attr_reader :name, :skill_levels
+  attr_accessor :email, :skills, :interview_dates
 
   def initialize(name:, email:, skills: [])
     @name = name
@@ -25,7 +25,7 @@ class Candidate
     unless @skills.include? skill
       raise ArgumentError, "#{skill} is not part of the candidate's skills."
     end
-    unless (1..5).include?(level)
+    unless (1..5).include? level
       raise ArgumentError, 'Skill level must be between 1 and 5.'
     end
 
