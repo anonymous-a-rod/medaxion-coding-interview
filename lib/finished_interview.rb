@@ -53,7 +53,7 @@ describe Entity do
 
         describe 'speaks Camensko' do
           let(:native_language) { 'Camensko' }
-          
+
           it 'should be an alien' do
             is_expected.to be true
           end
