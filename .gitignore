@@ -1,0 +1,6 @@
+# Ignore bundler config and gems
+/.bundle
+/vendor/
+
+# Ignore notes
+/notes.txt
