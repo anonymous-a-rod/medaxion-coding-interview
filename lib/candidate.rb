@@ -11,7 +11,7 @@ class Candidate
   end
 
   def to_s
-    info = "Name: #{name}\nEmail: #{email}\nSkills: #{skills&.join(', ')}"
+    info = "Name: #{name}\nEmail: #{email}\nSkills: #{format_skills}"
     info += "\nSkill Levels: #{format_skill_levels}" unless skill_levels.empty?
     info += "\nInterview Dates: #{format_interview_dates}" unless interview_dates.empty?
     info
@@ -44,6 +44,10 @@ class Candidate
 
   def format_skill_levels
     skill_levels.map { |skill, level| "#{skill}: #{level}" }.join(', ')
+  end
+
+  def format_skills
+    skills&.join(', ')
   end
 
   def format_interview_dates
