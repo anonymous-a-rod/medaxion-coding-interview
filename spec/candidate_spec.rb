@@ -1,4 +1,4 @@
-require_relative '../lib/candidate'
+require 'candidate'
 
 RSpec.describe Candidate do
   let(:skills) { ['Ruby', 'RSpec'] }
